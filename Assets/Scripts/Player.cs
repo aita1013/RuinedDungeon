@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private bool Grounded;
     private Animator animator;
     
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isRunning",false);
         }
+        
         if(Input.GetKey(KeyCode.A))
         {
             transform.localScale = new Vector3(-2f,2f,2f);
@@ -44,11 +46,23 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("isRunning",false);
         }
+        
         if (Input.GetKeyDown(KeyCode.Space) && Grounded == true)    //ジャンプは地面についているときじゃないとできないため、
         {
             rd.AddForce(Vector2.up * jumpSpeed);
             animator.SetBool("isJumping",true);
         }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            animator.SetTrigger("isAttacking");
+        }
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            animator.SetTrigger("isAttacking2");
+        }
+        
        
        }
     private void OnCollisionEnter2D(Collision2D collision)
