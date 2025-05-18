@@ -6,27 +6,39 @@ using UnityEngine.UI;
 public class SkeltonHP : MonoBehaviour
 {
     // Start is called before the first frame update
-    int maxHP = 155;
+    [SerializeField] int maxHP = 200;
     int currentHp;
     public Slider slider;
-    
-    
+    private Animator animator;
+
+
     void Start()
     {
+        animator = GetComponent<Animator>();
         slider.value = 1;
-        currentHp = maxHP; 
+        currentHp = maxHP;
+
+
     }
-    private void OnTriggerEnter(Collider collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        Debug.Log("OK");
-        if(collider.gameObject.tag == "PlayerAttack")
+
+        if (collider.gameObject.tag == "PlayerAttack")
         {
             int damage = 50;
             currentHp = currentHp - damage;
             slider.value = (float)currentHp / (float)maxHP;
-            
+            if (currentHp <= 0)
+            {
+                animator.SetBool("IsDead", true);
+                Destroy(gameObject,3.0f); 
+            }
+        
         }
+
+
+
     }
-    
-   
+
+
 }

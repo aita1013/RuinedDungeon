@@ -12,23 +12,29 @@ public class Player : MonoBehaviour
     private Rigidbody2D rd;
     private bool Grounded;
     private Animator animator;
+    private AudioSource audioSource;
+    [SerializeField] private AudioClip attack1SE;
+    [SerializeField] private AudioClip attack2SE; 
+    
     
     
     // Start is called before the first frame update
     void Start()
     {
         rd = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();    
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if(Input.GetKey(KeyCode.D))
         {
             transform.localScale = new Vector3(2f,2f,2f); //3Dの場合反転する必要があるから大きさを変換する処理を入れている(28要参照）
         
-            transform.position += new Vector3(moveSpeed,0,0);
+            transform.position += new Vector3(moveSpeed * Time.deltaTime,0,0);
             animator.SetBool("isRunning",true);
         }
         else if(Input.GetKeyUp(KeyCode.D))
@@ -39,7 +45,7 @@ public class Player : MonoBehaviour
         if(Input.GetKey(KeyCode.A))
         {
             transform.localScale = new Vector3(-2f,2f,2f);
-            transform.position += new Vector3(-moveSpeed,0,0);
+            transform.position += new Vector3(-moveSpeed * Time.deltaTime,0,0);
             animator.SetBool("isRunning",true);
         }      
         else if(Input.GetKeyUp(KeyCode.A))
@@ -56,11 +62,13 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             animator.SetTrigger("isAttacking");
+            audioSource.PlayOneShot(attack1SE);
         }
 
         if(Input.GetKeyDown(KeyCode.T))
         {
             animator.SetTrigger("isAttacking2");
+            audioSource.PlayOneShot(attack2SE);
         }
         
        
